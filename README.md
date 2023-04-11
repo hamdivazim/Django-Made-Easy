@@ -8,3 +8,6 @@ $ python django_made_easy.py [YOUR_PROJECT_NAME]
 ```
 
 The program will then setup a virtual environment and install django to it. It will also make a django project for you to work in so you can save time and make things simple.
+
+## Contributing
+Django Made Easy hasn't been tested on MacOS and Linux and it would be great if someone could point out any bugs on other operating systems or general bugs/improvements.
