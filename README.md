@@ -1,5 +1,6 @@
 # Django Made Easy
 A tool that installs a django project for you. All you need is what you want to call it.
+<img src="https://raw.githubusercontent.com/hamdivazim/Django-Made-Easy/main/djangomadeeasy-logo.png" style="float:right;">
 
 ## How to run
 Clone this repository and `cd` to where you want your project to be. Then run `django_made_easy.py` in your terminal. Supply your project name as an argument. It should look like this:
