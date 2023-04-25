@@ -6,36 +6,51 @@
 # This project is licensed under the Apache License 2.0
 #
 
-import sys, os
+import sys
+import os
+import subprocess
 
 def pip_cmd(cmd):
-    os.system(Rf"virt\Scripts\pip.exe {cmd} > django-made-easy.log")
+    subprocess.run(["pip", cmd], check=True)
 
 def get_args():
-    return sys.argv[1:]
+    args = sys.argv[1:]
+    if not args:
+        print("Usage: python django_made_easy.py project_name")
+        sys.exit(1)
+    return args
 
 def set_py_name():
     global PYTHON_NAME
-    if os.system("python --version > django-made-easy.log") != "0":
-        PYTHON_NAME = "py"
+    PYTHON_NAME = os.path.basename(sys.executable)
 
-PYTHON_NAME = "python"
-
-def win():
-    set_py_name()
-
+def create_venv():
     print("Creating virtual environment...")
-    os.system(f"{PYTHON_NAME} -m venv virt > django-made-easy.log")
+    subprocess.run([PYTHON_NAME, "-m", "venv", "virt"], check=True)
 
-    print("Installing django..")
+def install_django():
+    print("Installing django in virtual environment...")
     pip_cmd("install django")
 
-    print(f"Creating project named {get_args()[0]} at {os.getcwd()} ...")
-    os.system(Rf"virt\Scripts\django-admin.exe startproject {get_args()[0]} > django-made-easy.log")
+def create_project():
+    project_name = get_args()[0]
+    print(f"Creating project named {project_name} at {os.getcwd()} ...")
+    subprocess.run(["virt/Scripts/django-admin", "startproject", project_name], check=True)
 
-    os.system("color 07")
+def activate_venv():
+    if sys.platform == "win32":
+        activate_path = "virt/Scripts/activate.bat"
+    else:
+        activate_path = "virt/bin/activate"
+    subprocess.run([activate_path], shell=True)
 
-    print("Remember to activate the virtual enironment 'virt'.")
+def main():
+    set_py_name()
+    create_venv()
+    activate_venv()
+    install_django()
+    create_project()
+    print("Done!")
 
 if __name__ == "__main__":
-    win()
+    main()
